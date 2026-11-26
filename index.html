@@ -136,22 +136,37 @@ let NEW={q:[],ca:[]};
 const A=()=>S.adm=S.adm||{};
 const hid=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return 'g'+(h>>>0).toString(36)};
 const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function adm(){const a=A();$('#v').innerHTML=`<h2>Admin</h2><p class=m>सिर्फ आपके लिए। ये keys सिर्फ इसी फोन में रहती हैं।</p>
   <label>Gemini key<input id=a1 type=password value="${esc(a.gk||'')}"></label><label>GitHub token<input id=a2 type=password value="${esc(a.gt||'')}"></label>
   <label>GitHub repo (जैसे naam/kakshpal-app)<input id=a3 value="${esc(a.repo||'')}"></label>
   <button class=b2 onclick="asave()">सेव करें</button><button class=b onclick="agen()">आज के नए सवाल बनाओ</button><div id=ao></div>`;aview()}
 function asave(q){const a=A();if($('#a1')){a.gk=$('#a1').value.trim();a.gt=$('#a2').value.trim();a.repo=$('#a3').value.trim()}sv();if(!q)alert('सेव हो गया')}
-async function gem(prompt,search){const body={contents:[{parts:[{text:prompt}]}]};if(search)body.tools=[{google_search:{}}];else body.generationConfig={responseMimeType:'application/json'};
-  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':A().gk},body:JSON.stringify(body)});
-  const j=await r.json();if(j.error)throw new Error(j.error.message);const t=j.candidates[0].content.parts[0].text,m=t.match(/\[[\s\S]*\]/);return JSON.parse(m?m[0]:t)}
-async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');NEW={q:[],ca:[]};const have=new Set(D.q.map(x=>x.id));
+async function gem(prompt,search,onRetry){const body={contents:[{parts:[{text:prompt}]}]};if(search)body.tools=[{google_search:{}}];else body.generationConfig={responseMimeType:'application/json'};
+  const maxTries=4;
+  for(let attempt=1;attempt<=maxTries;attempt++){
+    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':A().gk},body:JSON.stringify(body)});
+    const j=await r.json();
+    if(!j.error){const t=j.candidates[0].content.parts[0].text,m=t.match(/\[[\s\S]*\]/);return JSON.parse(m?m[0]:t)}
+    const msg=j.error.message||'';
+    const isBusy=r.status===429||r.status===503||/high demand|overloaded|quota|rate|unavailable/i.test(msg);
+    if(!isBusy||attempt===maxTries)throw new Error(msg);
+    const delay=attempt*5000;
+    if(onRetry)onRetry(attempt,maxTries,Math.round(delay/1000));
+    await wait(delay);
+  }
+}
+async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');NEW={q:[],ca:[]};const have=new Set(D.q.map(x=>x.id));let skipped=[];
   for(const [s,d] of Object.entries(SUBJ)){o.textContent='बना रहा हूँ: '+s+'…';
     const old=D.q.filter(x=>x.s==s).slice(-60).map(x=>'- '+x.q).join('\n');
-    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.\nSubject: ${d}. Write in Hindi. Only include facts you are sure about.\nDo NOT repeat or rephrase these existing questions; cover different topics:\n${old}\nReturn a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`);
+    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.\nSubject: ${d}. Write in Hindi. Only include facts you are sure about.\nDo NOT repeat or rephrase these existing questions; cover different topics:\n${old}\nReturn a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`,false,(att,mx,sec)=>o.textContent=`${s} पर सर्वर व्यस्त है — दोबारा कोशिश ${att}/${mx} (${sec}s बाद)…`);
       r.forEach(q=>{if(!(q&&Array.isArray(q.o)&&q.o.length==4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&q.q&&q.t))return;q.s=s;q.id=hid(q.q);if(have.has(q.id))return;have.add(q.id);NEW.q.push(q)})}
-    catch(e){o.textContent='त्रुटि ('+s+'): '+e.message;await new Promise(r=>setTimeout(r,2000))}}
-  try{const c=await gem('Give 5 important current affairs from the last 2 days for India (1-2 about Jharkhand if any) for a police constable exam. Hindi, one line each. Return only a JSON array: [{"t":"..."}]',true);NEW.ca=c.filter(i=>i&&i.t).map(i=>({d:td(),t:i.t}))}catch(e){}
-  if(!NEW.q.length&&!NEW.ca.length)o.textContent='कोई नया सवाल नहीं बना। key या इंटरनेट जाँचें।';else aview()}
+    catch(e){skipped.push(s);o.textContent='त्रुटि ('+s+'): '+e.message;await wait(4000)}
+    await wait(4000)}
+  try{o.textContent='करंट अफेयर्स बना रहा हूँ…';
+    const c=await gem('Give 5 important current affairs from the last 2 days for India (1-2 about Jharkhand if any) for a police constable exam. Hindi, one line each. Return only a JSON array: [{"t":"..."}]',true,(att,mx,sec)=>o.textContent=`करंट अफेयर्स पर सर्वर व्यस्त — कोशिश ${att}/${mx} (${sec}s बाद)…`);NEW.ca=c.filter(i=>i&&i.t).map(i=>({d:td(),t:i.t}))}catch(e){}
+  if(!NEW.q.length&&!NEW.ca.length)o.textContent='कोई नया सवाल नहीं बना। सर्वर व्यस्त है या key/इंटरनेट जाँचें।';
+  else{aview();if(skipped.length&&$('#ao'))$('#ao').insertAdjacentHTML('beforeend',`<p class=m>इन विषयों पर सर्वर व्यस्त रहा (बाद में फिर कोशिश करें): ${esc(skipped.join(', '))}</p>`)}}
 function aview(){const o=$('#ao');if(!o||(!NEW.q.length&&!NEW.ca.length))return;
   o.innerHTML=`<h3>${NEW.q.length} नए सवाल (गलत लगे तो निशान हटा दें)</h3>`+NEW.q.map((q,i)=>`<div class=card><label><input type=checkbox id=nq${i} checked style="width:auto"> ${esc(q.s)} › ${esc(q.t)}</label><div class=q>${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'✔ ':''}${esc(x)}</p>`).join('')}<p class=m>${esc(q.e||'')}</p></div>`).join('')+`<button class=b onclick="apub()">Publish करें</button>`}
 async function apub(){const a=A();if(!a.gt||!a.repo){alert('GitHub token और repo डालें');return}const o=$('#ao');
