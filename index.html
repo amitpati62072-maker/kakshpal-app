@@ -150,8 +150,7 @@ function lb(){const s=$('#ls').value,t=$('#lp').value;const list=D.q.filter(x=>x
 const SUBJ={"GK":"General Knowledge (India, history, polity, geography)","Jharkhand GK":"Jharkhand GK (history, districts, rivers, tribes, culture, tourism)","Maths":"Arithmetic and basic maths for a constable exam","Reasoning":"Reasoning (series, coding-decoding, direction, analogy)","Hindi":"Hindi grammar and vocabulary","General Science":"General Science (physics, chemistry, biology) at 10th level"};
 let NEW={q:[],ca:[]};
 const A=()=>S.adm=S.adm||{};
-const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/
-/g,''))));
+const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
 function adm(){
@@ -247,20 +246,16 @@ function mBulkParse(){
   const raw=($('#bTxt').value||'').trim();
   if(!raw){alert('पहले टेक्स्ट बॉक्स में सवाल पेस्ट करें।');return}
   const defSub=$('#bSub').value||'GK';
-  const blocks=raw.split(/
-\s*
-/).map(b=>b.trim()).filter(Boolean);
+  const blocks=raw.split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean);
   let added=0,dup=0,bad=0;
   for(const blk of blocks){
-    const lines=blk.split(/
-?
-/).map(l=>l.trim()).filter(Boolean);
+    const lines=blk.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
     let topic='सामान्य',qText='',exp='',ans=0;
     const opts=[];
     for(const ln of lines){
       if(/^topic\s*[:\-]/i.test(ln)){topic=ln.replace(/^topic\s*[:\-]\s*/i,'').trim()||'सामान्य'}
       else if(/^(?:q|सवाल|प्रश्न)\s*[0-9.\):\-]?\s*/i.test(ln)&&!qText){qText=ln.replace(/^(?:q|सवाल|प्रश्न)\s*[0-9.\):\-]?\s*/i,'').trim()}
-      else if(/^(?:[a-dA-D]|[क-घ])\s*[\)\.:\-]\s*/.test(ln)&&opts.length<4){opts.push(ln.replace(/^(?:[a-dA-D]|[क-घ])\s*[\)\.:\-]\s*/,'').trim())}
+      else if(/^(?:[a-dA-D]|[क-घ])\s*[\).:\-]\s*/.test(ln)&&opts.length<4){opts.push(ln.replace(/^(?:[a-dA-D]|[क-घ])\s*[\).:\-]\s*/,'').trim())}
       else if(/^(?:ans|answer|उत्तर|सही)\s*[:\-]?\s*/i.test(ln)){
         const m=ln.match(/([a-dA-D1-4])/);
         if(m){
@@ -299,13 +294,8 @@ async function gem(prompt,search,onRetry){const body={contents:[{parts:[{text:pr
 }
 async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');let skipped=[];
   for(const [s,d] of Object.entries(SUBJ)){o.textContent='बना रहा हूँ: '+s+'…';
-    const old=D.q.filter(x=>x.s==s).slice(-60).map(x=>'- '+x.q).join('
-');
-    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.
-Subject: ${d}. Write in Hindi. Only include facts you are sure about.
-Do NOT repeat or rephrase these existing questions; cover different topics:
-${old}
-Return a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`,false,(att,mx,sec)=>o.textContent=`${s} पर सर्वर व्यस्त है — दोबारा कोशिश ${att}/${mx} (${sec}s बाद)…`);
+    const old=D.q.filter(x=>x.s==s).slice(-60).map(x=>'- '+x.q).join('\n');
+    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.\nSubject: ${d}. Write in Hindi. Only include facts you are sure about.\nDo NOT repeat or rephrase these existing questions; cover different topics:\n${old}\nReturn a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`,false,(att,mx,sec)=>o.textContent=`${s} पर सर्वर व्यस्त है — दोबारा कोशिश ${att}/${mx} (${sec}s बाद)…`);
       r.forEach(q=>{if(!(q&&Array.isArray(q.o)&&q.o.length==4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&q.q&&q.t))return;pushNewQ(s,q.t,q.q,q.o,q.a,q.e)})}
     catch(e){skipped.push(s);o.textContent='त्रुटि ('+s+'): '+e.message;await wait(4000)}
     await wait(4000)}
