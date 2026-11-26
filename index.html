@@ -80,6 +80,21 @@ function rec(q,ok){const s=S.st[q.s+'|'+q.t]=S.st[q.s+'|'+q.t]||{c:0,w:0};ok?s.c
 function streak(){const t=td();if(S.last===t)return;const y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.sn=S.last===y?(S.sn||0)+1:1;S.last=t}
 function bm(id,el){S.bm=S.bm.includes(id)?S.bm.filter(x=>x!==id):S.bm.concat(id);sv();el.textContent=S.bm.includes(id)?'बुकमार्क हटाएं':'बुकमार्क'}
 
+const normQ=t=>String(t||'').toLowerCase().replace(/[\s\p{P}\p{S}]+/gu,'').trim();
+const hid=s=>{let h=0;const k=normQ(s)||String(s||'');for(const c of k)h=(h*31+c.charCodeAt(0))|0;return 'g'+(h>>>0).toString(36)};
+function dedupeList(arr){
+  const seenIds=new Set(),seenText=new Set(),out=[];
+  for(const item of (arr||[])){
+    if(!item||!item.q)continue;
+    const nk=normQ(item.q);
+    const id=item.id||hid(item.q);
+    if(seenIds.has(id)||(nk&&seenText.has(nk)))continue;
+    seenIds.add(id);if(nk)seenText.add(nk);
+    out.push({...item,id});
+  }
+  return out;
+}
+
 /* practice */
 function prac(qs,title){if(!qs.length){alert('इस सूची में अभी सवाल नहीं हैं');return}P={qs,i:0,title,done:0,a:null};rp()}
 function rp(){const q=P.qs[P.i];
@@ -128,14 +143,15 @@ function test(){const n=Math.min(CFG.n,D.q.length);
   <button class=b2 onclick="const k=$('#tp').value;st(shuf(pick(fresh(D.q.filter(x=>x.s+'|'+x.t==k)),15)),k,10)">शुरू करें</button>`}
 function learn(){$('#v').innerHTML=`<h2>प्रश्न किताब</h2><select id=ls onchange="lt()">${subs().map(s=>`<option>${esc(s)}</option>`).join('')}</select><select id=lp onchange="lb()"></select><div id=bk></div>`;lt()}
 function lt(){const s=$('#ls').value;$('#lp').innerHTML='<option value="">सभी टॉपिक</option>'+[...new Set(D.q.filter(x=>x.s==s).map(x=>x.t))].map(t=>`<option>${esc(t)}</option>`).join('');lb()}
-function lb(){const s=$('#ls').value,t=$('#lp').value;$('#bk').innerHTML=D.q.filter(x=>x.s==s&&(!t||x.t==t)).map(q=>`<div class=card><div class=q>${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'<b>✔ '+esc(x)+'</b>':esc(x)}</p>`).join('')}<p>${esc(q.e||'')}</p></div>`).join('')||'<p class=m>इस टॉपिक में अभी सवाल नहीं।</p>'}
+function lb(){const s=$('#ls').value,t=$('#lp').value;const list=D.q.filter(x=>x.s==s&&(!t||x.t==t));
+  $('#bk').innerHTML=list.map((q,idx)=>`<div class=card><p class=m><b>प्रश्न #${idx+1}</b> · ${esc(q.t)}</p><div class=q>${idx+1}. ${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'<b>✔ '+esc(x)+'</b>':esc(x)}</p>`).join('')}<p>${esc(q.e||'')}</p></div>`).join('')||'<p class=m>इस टॉपिक में अभी सवाल नहीं।</p>'}
 
 /* admin: सिर्फ मालिक के लिए (लिंक के आखिर में #admin लगाकर खुलता है) */
 const SUBJ={"GK":"General Knowledge (India, history, polity, geography)","Jharkhand GK":"Jharkhand GK (history, districts, rivers, tribes, culture, tourism)","Maths":"Arithmetic and basic maths for a constable exam","Reasoning":"Reasoning (series, coding-decoding, direction, analogy)","Hindi":"Hindi grammar and vocabulary","General Science":"General Science (physics, chemistry, biology) at 10th level"};
 let NEW={q:[],ca:[]};
 const A=()=>S.adm=S.adm||{};
-const hid=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return 'g'+(h>>>0).toString(36)};
-const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/
+/g,''))));
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
 function adm(){
@@ -167,7 +183,7 @@ function adm(){
   </div>
   <div class=card>
     <h3>3. Bulk Paste (एक साथ कई सवाल चिपकाएं)</h3>
-    <p class=m>फ़ॉर्मेट: हर सवाल ब्लॉक में <code>Q:</code>, <code>A)</code>, <code>B)</code>, <code>C)</code>, <code>D)</code>, <code>Ans: A</code> (और वैकल्पिक <code>Exp:</code> / <code>Topic:</code>) लिखें।</p>
+    <p class=m>फ़ॉर्मेट: हर सवाल ब्लॉक में <code>Q:</code>, <code>A)</code>, <code>B)</code>, <code>C)</code>, <code>D)</code>, <code>Ans: A</code> (और वैकल्पिक <code>Exp:</code> / <code>Topic:</code>) लिखें। एक जैसे सवाल अपने आप हट जाते हैं और नंबरिंग अपने आप लग जाती है।</p>
     <label>डिफ़ॉल्ट विषय<select id=bSub>${Object.keys(SUBJ).map(k=>`<option>${esc(k)}</option>`).join('')}</select></label>
     <label>यहाँ एक साथ सवाल पेस्ट करें<textarea id=bTxt style="min-height:130px" placeholder="Topic: झारखंड भूगोल
 Q: झारखंड की सबसे ऊँची चोटी कौन-सी है?
@@ -185,21 +201,25 @@ Exp: पारसनाथ पहाड़ी (सम्मेद शिखर) 
 
 function asave(q){const a=A();if($('#a1')){a.gk=$('#a1').value.trim();a.gt=$('#a2').value.trim();a.repo=$('#a3').value.trim()}sv();if(!q)alert('सेव हो गया')}
 
+function isDuplicateQ(qText, id){
+  const nk=normQ(qText);
+  return D.q.some(x=>x.id===id||(nk&&normQ(x.q)===nk))||NEW.q.some(x=>x.id===id||(nk&&normQ(x.q)===nk));
+}
+
 function pushNewQ(subj,topic,qText,opts,ansIdx,exp){
   const cleanQ=String(qText||'').trim();
   const cleanOpts=(opts||[]).map(x=>String(x||'').trim()).filter(Boolean);
-  if(!cleanQ||cleanOpts.length!==4)return false;
+  if(!cleanQ||cleanOpts.length!==4)return 'invalid';
   const idx=Number.isInteger(ansIdx)&&ansIdx>=0&&ansIdx<4?ansIdx:0;
   const item={s:subj||'GK',t:(topic||'सामान्य').trim()||'सामान्य',q:cleanQ,o:cleanOpts,a:idx,e:(exp||'').trim()};
   item.id=hid(item.q);
-  const exists=D.q.some(x=>x.id===item.id)||NEW.q.some(x=>x.id===item.id);
-  if(exists)return false;
+  if(isDuplicateQ(item.q,item.id))return 'duplicate';
   NEW.q.push(item);
-  return true;
+  return 'added';
 }
 
 function mAddQ(){
-  const ok=pushNewQ(
+  const res=pushNewQ(
     $('#mSub').value,
     $('#mTop').value,
     $('#mQ').value,
@@ -207,10 +227,11 @@ function mAddQ(){
     parseInt($('#mAns').value,10),
     $('#mExp').value
   );
-  if(!ok){alert('कृपया सवाल और चारों विकल्प (A, B, C, D) सही से भरें।');return}
+  if(res==='invalid'){alert('कृपया सवाल और चारों विकल्प (A, B, C, D) सही से भरें।');return}
+  if(res==='duplicate'){alert('यह सवाल पहले से मौजूद है, इसलिए इसे नहीं जोड़ा गया।');return}
   $('#mQ').value='';$('#mO0').value='';$('#mO1').value='';$('#mO2').value='';$('#mO3').value='';$('#mExp').value='';
   aview();
-  alert('सवाल सूची में जुड़ गया! नीचे जाकर Publish करें दबाएं।');
+  alert('सवाल #'+(D.q.length+NEW.q.length)+' सूची में जुड़ गया! नीचे जाकर Publish करें दबाएं।');
 }
 
 function mAddCa(){
@@ -226,10 +247,14 @@ function mBulkParse(){
   const raw=($('#bTxt').value||'').trim();
   if(!raw){alert('पहले टेक्स्ट बॉक्स में सवाल पेस्ट करें।');return}
   const defSub=$('#bSub').value||'GK';
-  const blocks=raw.split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean);
-  let added=0;
+  const blocks=raw.split(/
+\s*
+/).map(b=>b.trim()).filter(Boolean);
+  let added=0,dup=0,bad=0;
   for(const blk of blocks){
-    const lines=blk.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+    const lines=blk.split(/
+?
+/).map(l=>l.trim()).filter(Boolean);
     let topic='सामान्य',qText='',exp='',ans=0;
     const opts=[];
     for(const ln of lines){
@@ -247,12 +272,15 @@ function mBulkParse(){
       else if(/^(?:exp|explanation|व्याख्या)\s*[:\-]\s*/i.test(ln)){exp=ln.replace(/^(?:exp|explanation|व्याख्या)\s*[:\-]\s*/i,'').trim()}
       else if(!qText){qText=ln}
     }
-    if(pushNewQ(defSub,topic,qText,opts,ans,exp))added++;
+    const res=pushNewQ(defSub,topic,qText,opts,ans,exp);
+    if(res==='added')added++;
+    else if(res==='duplicate')dup++;
+    else bad++;
   }
-  if(!added){alert('कोई मान्य सवाल parse नहीं हो सका। कृपया Q, A-D विकल्प और Ans फ़ॉर्मेट जाँचें।');return}
+  if(!added&&!dup){alert('कोई मान्य सवाल parse नहीं हो सका। कृपया Q, A-D विकल्प और Ans फ़ॉर्मेट जाँचें।');return}
   $('#bTxt').value='';
   aview();
-  alert(added+' सवाल सूची में जुड़ गए! नीचे जाकर Publish करें दबाएं।');
+  alert(`${added} नए सवाल जुड़े${dup?` (${dup} एक जैसे सवाल अपने आप हट गए)`:''}${bad?` (${bad} अधूरे ब्लॉक छोड़े गए)`:''}। नीचे जाकर Publish करें दबाएं।`);
 }
 
 async function gem(prompt,search,onRetry){const body={contents:[{parts:[{text:prompt}]}]};if(search)body.tools=[{google_search:{}}];else body.generationConfig={responseMimeType:'application/json'};
@@ -269,11 +297,16 @@ async function gem(prompt,search,onRetry){const body={contents:[{parts:[{text:pr
     await wait(delay);
   }
 }
-async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');const have=new Set(D.q.map(x=>x.id));let skipped=[];
+async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');let skipped=[];
   for(const [s,d] of Object.entries(SUBJ)){o.textContent='बना रहा हूँ: '+s+'…';
-    const old=D.q.filter(x=>x.s==s).slice(-60).map(x=>'- '+x.q).join('\n');
-    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.\nSubject: ${d}. Write in Hindi. Only include facts you are sure about.\nDo NOT repeat or rephrase these existing questions; cover different topics:\n${old}\nReturn a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`,false,(att,mx,sec)=>o.textContent=`${s} पर सर्वर व्यस्त है — दोबारा कोशिश ${att}/${mx} (${sec}s बाद)…`);
-      r.forEach(q=>{if(!(q&&Array.isArray(q.o)&&q.o.length==4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&q.q&&q.t))return;q.s=s;q.id=hid(q.q);if(have.has(q.id)||NEW.q.some(x=>x.id===q.id))return;NEW.q.push(q)})}
+    const old=D.q.filter(x=>x.s==s).slice(-60).map(x=>'- '+x.q).join('
+');
+    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.
+Subject: ${d}. Write in Hindi. Only include facts you are sure about.
+Do NOT repeat or rephrase these existing questions; cover different topics:
+${old}
+Return a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`,false,(att,mx,sec)=>o.textContent=`${s} पर सर्वर व्यस्त है — दोबारा कोशिश ${att}/${mx} (${sec}s बाद)…`);
+      r.forEach(q=>{if(!(q&&Array.isArray(q.o)&&q.o.length==4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&q.q&&q.t))return;pushNewQ(s,q.t,q.q,q.o,q.a,q.e)})}
     catch(e){skipped.push(s);o.textContent='त्रुटि ('+s+'): '+e.message;await wait(4000)}
     await wait(4000)}
   try{o.textContent='करंट अफेयर्स बना रहा हूँ…';
@@ -283,22 +316,24 @@ async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डा
 
 function aview(){const o=$('#ao');if(!o)return;
   if(!NEW.q.length&&!NEW.ca.length){o.innerHTML='';return}
-  o.innerHTML=`<h3>${NEW.q.length} सवाल तैयार (${NEW.ca.length} करंट अफेयर्स) — गलत लगे तो निशान हटा दें</h3>`+
+  const baseNum=D.q.length;
+  o.innerHTML=`<h3>${NEW.q.length} नए सवाल (${NEW.ca.length} करंट अफेयर्स) — गलत लगे तो निशान हटा दें</h3>`+
   (NEW.ca.length?`<div class=card><b>करंट अफेयर्स (${NEW.ca.length})</b>`+NEW.ca.map(c=>`<p class=m>• ${esc(c.t)}</p>`).join('')+`</div>`:'')+
-  NEW.q.map((q,i)=>`<div class=card><label><input type=checkbox id=nq${i} checked style="width:auto"> ${esc(q.s)} › ${esc(q.t)}</label><div class=q>${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'✔ ':''}${esc(x)}</p>`).join('')}<p class=m>${esc(q.e||'')}</p></div>`).join('')+
+  NEW.q.map((q,i)=>`<div class=card><label><input type=checkbox id=nq${i} checked style="width:auto"> <b>#${baseNum+i+1}</b> · ${esc(q.s)} › ${esc(q.t)}</label><div class=q>${baseNum+i+1}. ${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'✔ ':''}${esc(x)}</p>`).join('')}<p class=m>${esc(q.e||'')}</p></div>`).join('')+
   `<button class=b onclick="apub()">Publish करें</button>`}
 
 async function apub(){asave(1);const a=A();if(!a.gt||!a.repo){alert('GitHub token और repo डालें');return}const o=$('#ao');
   const keep=NEW.q.filter((_,i)=>$('#nq'+i)&&$('#nq'+i).checked);o.textContent='Publish हो रहा है…';
   const u='https://api.github.com/repos/'+a.repo+'/contents/questions.json',h={Authorization:'Bearer '+a.gt,Accept:'application/vnd.github+json'};
   try{const g=await fetch(u,{headers:h}),gj=await g.json();if(!g.ok)throw new Error(gj.message);
-    const db=JSON.parse(b64d(gj.content));db.questions=db.questions||[];
-    const ids=new Set(db.questions.map(x=>x.id));
-    keep.forEach(q=>{if(!ids.has(q.id)){db.questions.push(q);D.q.push(q)}});
-    db.questions=db.questions.slice(-2000);
+    const db=JSON.parse(b64d(gj.content));
+    const merged=dedupeList((db.questions||[]).concat(keep)).slice(-200000);
+    const addedCount=Math.max(0,merged.length-(db.questions||[]).length);
+    db.questions=merged;
+    D.q=merged.slice();
     if(NEW.ca.length){db.current_affairs=NEW.ca.concat(db.current_affairs||[]).slice(0,60);D.ca=db.current_affairs.slice()}
     const p=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'daily questions',content:b64e(JSON.stringify(db)),sha:gj.sha})}),pj=await p.json();if(!p.ok)throw new Error(pj.message);
-    NEW={q:[],ca:[]};o.textContent='हो गया! '+keep.length+' सवाल जुड़े। 1-2 मिनट में सब students को दिखेंगे।'}
+    NEW={q:[],ca:[]};o.textContent=`हो गया! ${addedCount} नए सवाल जुड़े (एक जैसे सवाल अपने आप हट गए)। 1-2 मिनट में सब students को दिखेंगे।`}
   catch(e){o.textContent='त्रुटि: '+e.message}}
 function phys(){const b=(k,f)=>{const v=S.phys.map(x=>parseFloat(x[k])).filter(x=>x>0);return v.length?f(...v):'-'};
   $('#v').innerHTML=`<h2>शारीरिक टेस्ट</h2><p class=m>अपना रिकॉर्ड डालें। मानक (standard) अपने नोटिफिकेशन से देखें।</p>
@@ -314,6 +349,6 @@ function me(){$('#v').innerHTML=`<h2>मेरा</h2><button class=b2 onclick="
 const V={home,test,learn,phys,me,adm},N=[['home','होम','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>'],['test','टेस्ट','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>'],['learn','किताब','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12a3 3 0 013 3v13H7a3 3 0 01-3-3zM4 17a3 3 0 013-3h12"/></svg>'],['phys','शारीरिक','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M12 14v-4M9 3h6"/></svg>'],['me','मेरा','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>']];
 function go(v){clearInterval(tick);window.scrollTo(0,0);$('#n').innerHTML=N.map(([k,l,i])=>`<button class="${k==v?'on':''}" onclick="go('${k}')">${i}<span>${l}</span></button>`).join('');V[v]()}
 document.documentElement.dataset.t=S.dk||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
-fetch('questions.json').then(r=>r.json()).then(j=>{D.q=j.questions||[];D.ca=j.current_affairs||[];go(location.hash=='#admin'?'adm':'home')}).catch(()=>{$('#v').textContent='सवाल लोड नहीं हुए। इंटरनेट जाँचें।'});
+fetch('questions.json').then(r=>r.json()).then(j=>{D.q=dedupeList(j.questions||[]);D.ca=j.current_affairs||[];go(location.hash=='#admin'?'adm':'home')}).catch(()=>{$('#v').textContent='सवाल लोड नहीं हुए। इंटरनेट जाँचें।'});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 </script></body></html>
