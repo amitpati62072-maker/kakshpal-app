@@ -1,4 +1,4 @@
-const C = 'kp-v1';
+const C = 'kp-v2';
 const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg', 'questions.json'];
 
 self.addEventListener('install', e => {
@@ -13,7 +13,6 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Network first (so new daily questions show up), cache as offline fallback
 self.addEventListener('fetch', e => {
   const u = new URL(e.request.url);
   if (e.request.method !== 'GET' || u.origin !== location.origin) return;
