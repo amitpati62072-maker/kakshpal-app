@@ -1,344 +1,368 @@
-<!doctype html>
-<html lang="hi"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>कक्षपाल तैयारी</title>
-<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
-<meta name="theme-color" content="#1F5C48">
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#EEF1F5;--card:#fff;--ink:#14202E;--mut:#5E6C7E;--g:#17375E;--ac:#17375E;--k:#D4A537;--r:#B3261E;--ok:#1E7D4F;--ln:#D8DEE6;--hero:#17375E;color-scheme:light}
-[data-t=dark]{--bg:#0B1420;--card:#122033;--ink:#E7EDF5;--mut:#93A3B8;--g:#2F5E9E;--ac:#E3B84F;--ln:#22344C;--r:#F08A80;--ok:#5CCB93;--hero:#16315A;color-scheme:dark}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Mukta","Noto Sans Devanagari",system-ui,sans-serif;padding-bottom:76px}
-header{background:var(--hero);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
-header svg{width:26px;height:26px;flex:none}
-main{max-width:560px;margin:0 auto;padding:16px}
-h2{margin:.2em 0 .4em;font-size:24px;font-weight:800;line-height:1.25}
-h3{margin:1.5em 0 .5em;font-size:17px;font-weight:800}
-.m{color:var(--mut);font-size:14px;margin:.2em 0 .6em}
-button,select,input,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
-button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,i:focus-visible{outline:3px solid var(--k);outline-offset:2px}
-.hero{background:var(--hero);color:#fff;border-radius:16px;padding:20px 18px;margin-bottom:14px}
-.hero p{margin:0;opacity:.8;font-size:14px}
-.hero h1{margin:.1em 0 .6em;font-size:28px;font-weight:800;line-height:1.2}
-.stats{display:flex;gap:8px;margin-bottom:16px}
-.stats div{flex:1;background:rgba(255,255,255,.12);border-radius:10px;padding:8px 6px;text-align:center;font-size:12px;line-height:1.3}
-.stats b{display:block;font-size:22px}
-.cta{width:100%;border:0;border-radius:12px;background:var(--k);color:#1a1a1a;font-weight:800;font-size:17px;padding:14px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{display:block;text-align:left;border:1px solid var(--ln);border-left:4px solid var(--k);border-radius:12px;background:var(--card);padding:12px}
-.tile b{display:block;font-size:16px}.tile span{font-size:13px;color:var(--mut)}
-.b,.b2{display:block;width:100%;padding:13px;border-radius:12px;border:0;margin:10px 0;font-weight:800;text-align:center;text-decoration:none}
-.b{background:var(--g);color:#fff}.b2{background:var(--k);color:#1a1a1a}
-.o{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:12px;margin:9px 0;border:1.5px solid var(--ln);border-radius:12px;background:var(--card)}
-.o b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:var(--bg);border:1px solid var(--ln)}
-.o.sel{border-color:var(--g);background:color-mix(in srgb,var(--g) 12%,var(--card))}
-.o.sel b{background:var(--g);color:#fff;border-color:var(--g)}
-.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--card))}
-.o.no{border-color:var(--r);background:color-mix(in srgb,var(--r) 14%,var(--card))}
-.q{font-size:19px;font-weight:600;line-height:1.5;margin:.3em 0 .8em}
-.card{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:14px;margin:10px 0}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.row button{flex:1;padding:11px;border:1.5px solid var(--ln);border-radius:10px;background:var(--card);font-weight:600}
-.bar{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:2;border-bottom:1px solid var(--ln)}
-#tm{font-weight:800;color:var(--r);font-size:18px}
-.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;margin:14px 0}
-.pal i{font-style:normal;text-align:center;padding:8px 0;border:1.5px solid var(--ln);border-radius:8px;background:var(--card);cursor:pointer}
-.pal .an{background:var(--g);color:#fff;border-color:var(--g)}.pal .mr{border-color:var(--k);border-width:3px}.pal .cu{outline:2px solid var(--ink)}
-.big{font-size:44px;font-weight:800;color:var(--ac)}
-.chip{border:1.5px solid var(--ln);background:var(--card);border-radius:99px;padding:6px 12px;margin:4px 4px 4px 0}
-select,input,textarea{width:100%;padding:11px;border:1.5px solid var(--ln);border-radius:10px;background:var(--card);margin:4px 0 10px}
-textarea{min-height:80px}
-label{display:block;font-size:14px;color:var(--mut)}
-table{width:100%;border-collapse:collapse}td,th{padding:8px 6px;border-bottom:1px solid var(--ln);text-align:left}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--ln)}
-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 2px 8px;border:0;background:none;font-size:12px;color:var(--mut)}
-nav button.on{color:var(--ac);font-weight:800;box-shadow:inset 0 3px var(--ac)}
-@media(prefers-reduced-motion:no-preference){.o,.tile,.cta{transition:transform .08s}.o:active,.tile:active,.cta:active{transform:scale(.98)}}
-</style></head>
-<body><header><svg viewBox="0 0 24 24" fill="#D4A537"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/></svg>कक्षपाल तैयारी</header><main id="v">लोड हो रहा है…</main><nav id="n"></nav>
-<script>
-const CFG={name:"Jharkhand Police Constable (अनुमानित पैटर्न, अपने नोटिफिकेशन से बदलें)",n:100,min:90,neg:.25,mk:1};
-let D={q:[],ca:[]},S={},P,T,tick;
-try{S=JSON.parse(localStorage.getItem('kp'))||{}}catch(e){}
-['bm','rev','seen','hist','phys'].forEach(k=>S[k]=S[k]||[]);S.st=S.st||{};
-const sv=()=>{try{localStorage.setItem('kp',JSON.stringify(S))}catch(e){}};
-const $=s=>document.querySelector(s);
-const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
-const td=()=>new Date().toISOString().slice(0,10);
-const byId=id=>D.q.find(x=>x.id===id);
-const subs=()=>[...new Set(D.q.map(x=>x.s))];
-const pick=(a,n)=>{const o=[],s=new Set();for(const q of a){if(!s.has(q.id)){s.add(q.id);o.push(q);if(o.length==n)break}}return o};
-const fresh=a=>shuf(a.filter(q=>!S.seen.includes(q.id))).concat(shuf(a));
-const daily=()=>pick(fresh(D.q),10);
-function weak(){const t=Object.entries(S.st).filter(([k,v])=>v.c+v.w>=3).sort((a,b)=>a[1].c/(a[1].c+a[1].w)-b[1].c/(b[1].c+b[1].w)).slice(0,3).map(x=>x[0]);
-  return pick(shuf(D.q.filter(q=>t.includes(q.s+'|'+q.t))),10)}
-function rec(q,ok){const s=S.st[q.s+'|'+q.t]=S.st[q.s+'|'+q.t]||{c:0,w:0};ok?s.c++:s.w++;
-  S.rev=S.rev.filter(i=>i!==q.id);if(!ok)S.rev.push(q.id);if(!S.seen.includes(q.id))S.seen.push(q.id)}
-function streak(){const t=td();if(S.last===t)return;const y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.sn=S.last===y?(S.sn||0)+1:1;S.last=t}
-function bm(id,el){S.bm=S.bm.includes(id)?S.bm.filter(x=>x!==id):S.bm.concat(id);sv();el.textContent=S.bm.includes(id)?'बुकमार्क हटाएं':'बुकमार्क'}
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kitab & Admin Question Manager</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { margin: 0; background: #0f172a; color: #f8fafc; padding: 16px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 18px; }
+    .tab-btn {
+      padding: 10px 18px; border: none; border-radius: 8px;
+      background: #1e293b; color: #cbd5e1; cursor: pointer; font-weight: 600;
+    }
+    .tab-btn.active { background: #2563eb; color: #fff; }
+    .card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+      padding: 16px; margin-bottom: 14px;
+    }
+    .meta { font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
+    .q-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+    .opt {
+      padding: 9px 12px; border-radius: 8px; margin-bottom: 7px;
+      background: #0f172a; border: 1px solid #334155; color: #e2e8f0;
+    }
+    .opt.correct {
+      border-color: #22c55e; background: rgba(34, 197, 94, 0.14);
+      color: #86efac; font-weight: 600;
+    }
+    .exp {
+      margin-top: 10px; padding-top: 10px; border-top: 1px dashed #475569;
+      color: #cbd5e1; font-size: 14px;
+    }
+    .row-actions { margin-top: 12px; display: flex; gap: 8px; }
+    button {
+      padding: 8px 14px; border-radius: 8px; border: none;
+      cursor: pointer; font-weight: 600;
+    }
+    .btn-edit { background: #f59e0b; color: #0f172a; }
+    .btn-save { background: #22c55e; color: #0f172a; }
+    .btn-cancel { background: #475569; color: #fff; }
+    .btn-primary { background: #3b82f6; color: #fff; }
+    textarea, input, select {
+      width: 100%; padding: 9px 10px; margin-bottom: 10px;
+      border-radius: 8px; border: 1px solid #475569;
+      background: #0f172a; color: #f8fafc;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      display: none; align-items: center; justify-content: center; padding: 14px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: #1e293b; border: 1px solid #475569; border-radius: 12px;
+      padding: 18px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+    }
+    label { display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <button id="tabKitab" class="tab-btn active" onclick="switchTab('kitab')">किताब (View)</button>
+      <button id="tabAdmin" class="tab-btn" onclick="switchTab('admin')">Admin & Manual Edit</button>
+    </div>
 
-const normQ=t=>String(t||'').toLowerCase().replace(/[\s\p{P}\p{S}]+/gu,'').trim();
-const hid=s=>{let h=0;const k=normQ(s)||String(s||'');for(const c of k)h=(h*31+c.charCodeAt(0))|0;return 'g'+(h>>>0).toString(36)};
-function dedupeList(arr){
-  const seenIds=new Set(),seenText=new Set(),out=[];
-  for(const item of (arr||[])){
-    if(!item||!item.q)continue;
-    const nk=normQ(item.q);
-    const id=item.id||hid(item.q);
-    if(seenIds.has(id)||(nk&&seenText.has(nk)))continue;
-    seenIds.add(id);if(nk)seenText.add(nk);
-    out.push({...item,id});
-  }
-  return out;
-}
+    <!-- KITAB VIEW -->
+    <div id="kitabView"></div>
 
-/* practice */
-function prac(qs,title){if(!qs.length){alert('इस सूची में अभी सवाल नहीं हैं');return}P={qs,i:0,title,done:0,a:null};rp()}
-function rp(){const q=P.qs[P.i];
-  if(!q){streak();sv();$('#v').innerHTML=`<h2>${esc(P.title)} पूरा</h2><p>${P.done} सवाल हल किए।</p><button class=b onclick="go('home')">होम पर जाएं</button>`;return}
-  $('#v').innerHTML=`<p class=m>${esc(P.title)} · ${P.i+1}/${P.qs.length} · ${esc(q.s)}</p><div class=q>${esc(q.q)}</div>`+
-  q.o.map((o,j)=>`<button class=o onclick="pa(${j})">${'<b>'+'ABCD'[j]+'</b><span>'+esc(o)+'</span>'}</button>`).join('')+`<div id=ex></div>`}
-function pa(j){if(P.a!=null)return;const q=P.qs[P.i];P.a=j;const ok=j==q.a;rec(q,ok);P.done++;sv();
-  document.querySelectorAll('.o').forEach((b,x)=>{b.disabled=1;if(x==q.a)b.classList.add('ok');else if(x==j)b.classList.add('no')});
-  $('#ex').innerHTML=`<p><b>${ok?'सही':'गलत'}</b>। ${esc(q.e||'')}</p><div class=row><button onclick="bm('${q.id}',this)">${S.bm.includes(q.id)?'बुकमार्क हटाएं':'बुकमार्क'}</button><button class=b onclick="P.i++;P.a=null;rp()">अगला सवाल</button></div>`}
-
-/* mock test */
-function st(qs,title,min){if(!qs.length){alert('सवाल कम हैं');return}T={qs,a:qs.map(()=>-1),m:qs.map(()=>0),i:0,title,end:Date.now()+min*6e4};clearInterval(tick);tick=setInterval(tm,1000);rt()}
-function tm(){const l=T.end-Date.now();if(l<=0){clearInterval(tick);sub(1);return}const e=$('#tm');if(e)e.textContent=Math.floor(l/6e4)+':'+String(Math.floor(l/1e3)%60).padStart(2,'0')}
-function nv(d){T.i=Math.max(0,Math.min(T.qs.length-1,T.i+d));rt()}
-function rt(){const q=T.qs[T.i];
-  $('#v').innerHTML=`<div class=bar><b>${esc(T.title)}</b><span id=tm></span></div><p class=m>${T.i+1}/${T.qs.length} · ${esc(q.s)}</p><div class=q>${esc(q.q)}</div>`+
-  q.o.map((o,j)=>`<button class="o ${T.a[T.i]==j?'sel':''}" onclick="T.a[T.i]=${j};rt()">${'<b>'+'ABCD'[j]+'</b><span>'+esc(o)+'</span>'}</button>`).join('')+
-  `<div class=row><button onclick="nv(-1)">पीछे</button><button onclick="T.m[T.i]^=1;rt()">${T.m[T.i]?'Review हटाएं':'Review'}</button><button onclick="T.a[T.i]=-1;rt()">उत्तर हटाएं</button><button onclick="nv(1)">आगे</button></div><div class=pal>`+
-  T.qs.map((_,k)=>`<i tabindex=0 class="${T.a[k]>=0?'an':''} ${T.m[k]?'mr':''} ${k==T.i?'cu':''}" onclick="T.i=${k};rt()">${k+1}</i>`).join('')+
-  `</div><button class=b onclick="sub()">जमा करें (Submit)</button>`;tm()}
-function sub(auto){const n=T.qs.length;if(!auto&&!confirm(T.a.filter(x=>x>=0).length+'/'+n+' हल किए। जमा करें?'))return;clearInterval(tick);
-  let r=0,w=0;const by={},bad=[];
-  T.qs.forEach((q,i)=>{const b=by[q.s]=by[q.s]||{c:0,n:0};b.n++;if(T.a[i]<0)return;const ok=T.a[i]==q.a;rec(q,ok);if(ok){r++;b.c++}else{w++;bad.push(q)}});
-  const sc=r*CFG.mk-w*CFG.neg,mx=n*CFG.mk;S.hist.unshift({d:td(),t:T.title,sc,mx});S.hist=S.hist.slice(0,30);streak();sv();
-  const msg=encodeURIComponent('मैंने '+T.title+' में '+sc.toFixed(1)+'/'+mx+' स्कोर किया');
-  $('#v').innerHTML=`<h2>रिज़ल्ट</h2><div class=big>${sc.toFixed(2)} / ${mx}</div><p>सही ${r} · गलत ${w} · छोड़े ${n-r-w}</p>
-  <table><tr><th>विषय</th><th>सही / कुल</th></tr>${Object.entries(by).map(([s,b])=>`<tr><td>${esc(s)}</td><td>${b.c} / ${b.n}</td></tr>`).join('')}</table>
-  <a class=b href="https://wa.me/?text=${msg}" target=_blank rel=noopener>WhatsApp पर भेजें</a><button class=b2 onclick="go('home')">होम</button>
-  <h3>गलत सवाल</h3>`+(bad.map(q=>`<div class=card><div class=q>${esc(q.q)}</div><p>सही उत्तर: <b>${esc(q.o[q.a])}</b></p><p class=m>${esc(q.e||'')}</p></div>`).join('')||'<p class=m>कोई गलत सवाल नहीं।</p>')}
-const sec=s=>st(shuf(pick(fresh(D.q.filter(x=>x.s==s)),25)),s,Math.ceil(25*CFG.min/CFG.n));
-
-/* views */
-function home(){const ca=D.ca.slice(0,8),n=Math.min(CFG.n,D.q.length);
-  $('#v').innerHTML=`<section class=hero><p>${esc(CFG.name.split(' (')[0])}</p><h1>आज की तैयारी</h1>
-  <div class=stats><div><b>${S.sn||0}</b>दिन लगातार</div><div><b>${D.q.length}</b>कुल सवाल</div><div><b>${S.seen.length}</b>हल किए</div></div>
-  <button class=cta onclick="prac(daily(),'आज का अभ्यास')">आज का अभ्यास शुरू करें · 10 सवाल</button></section>
-  <div class=grid><button class=tile onclick="go('test')"><b>मॉक टेस्ट</b><span>${n} सवाल · ${CFG.min} मिनट</span></button>
-  <button class=tile onclick="prac(weak(),'कमज़ोर टॉपिक')"><b>कमज़ोर टॉपिक</b><span>जहाँ गलती ज़्यादा</span></button>
-  <button class=tile onclick="prac(S.rev.map(byId).filter(Boolean),'दोहराई')"><b>दोहराएं</b><span>${S.rev.length} सवाल</span></button>
-  <button class=tile onclick="prac(S.bm.map(byId).filter(Boolean),'बुकमार्क')"><b>बुकमार्क</b><span>${S.bm.length} सवाल</span></button></div>
-  <h3>करंट अफेयर्स</h3>`+(ca.length?ca.map(c=>`<div class=card><p class=m>${esc(c.d||'')}</p>${esc(c.t)}</div>`).join(''):'<p class=m>नए सवाल Publish होने के बाद यहाँ करंट अफेयर्स दिखेंगे।</p>')}
-function test(){const n=Math.min(CFG.n,D.q.length);
-  $('#v').innerHTML=`<h2>मॉक टेस्ट</h2><div class=card><b>फुल टेस्ट</b><p class=m>${n} सवाल · ${CFG.min} मिनट · गलत पर -${CFG.neg}</p><button class=b onclick="st(shuf(pick(fresh(D.q),CFG.n)),'फुल टेस्ट',CFG.min)">शुरू करें</button></div>
-  <h3>सेक्शन टेस्ट</h3>`+subs().map(s=>`<button class=o data-s="${esc(s)}" onclick="sec(this.dataset.s)">${esc(s)}</button>`).join('')+
-  `<h3>टॉपिक टेस्ट</h3><select id=tp>${[...new Set(D.q.map(x=>x.s+'|'+x.t))].map(k=>`<option>${esc(k)}</option>`).join('')}</select>
-  <button class=b2 onclick="const k=$('#tp').value;st(shuf(pick(fresh(D.q.filter(x=>x.s+'|'+x.t==k)),15)),k,10)">शुरू करें</button>`}
-function learn(){$('#v').innerHTML=`<h2>प्रश्न किताब</h2><select id=ls onchange="lt()">${subs().map(s=>`<option>${esc(s)}</option>`).join('')}</select><select id=lp onchange="lb()"></select><div id=bk></div>`;lt()}
-function lt(){const s=$('#ls').value;$('#lp').innerHTML='<option value="">सभी टॉपिक</option>'+[...new Set(D.q.filter(x=>x.s==s).map(x=>x.t))].map(t=>`<option>${esc(t)}</option>`).join('');lb()}
-function lb(){const s=$('#ls').value,t=$('#lp').value;const list=D.q.filter(x=>x.s==s&&(!t||x.t==t));
-  $('#bk').innerHTML=list.map((q,idx)=>`<div class=card><p class=m><b>प्रश्न #${idx+1}</b> · ${esc(q.t)}</p><div class=q>${idx+1}. ${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'<b>✔ '+esc(x)+'</b>':esc(x)}</p>`).join('')}<p>${esc(q.e||'')}</p></div>`).join('')||'<p class=m>इस टॉपिक में अभी सवाल नहीं।</p>'}
-
-/* admin: सिर्फ मालिक के लिए (लिंक के आखिर में #admin लगाकर खुलता है) */
-const SUBJ={"GK":"General Knowledge (India, history, polity, geography)","Jharkhand GK":"Jharkhand GK (history, districts, rivers, tribes, culture, tourism)","Maths":"Arithmetic and basic maths for a constable exam","Reasoning":"Reasoning (series, coding-decoding, direction, analogy)","Hindi":"Hindi grammar and vocabulary","General Science":"General Science (physics, chemistry, biology) at 10th level"};
-let NEW={q:[],ca:[]};
-const A=()=>S.adm=S.adm||{};
-const b64e=s=>btoa(unescape(encodeURIComponent(s))),b64d=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
-
-function adm(){
-  const a=A();
-  $('#v').innerHTML=`<h2>Admin</h2><p class=m>सिर्फ आपके लिए। ये keys सिर्फ इसी फोन में रहती हैं।</p>
-  <div class=card>
-    <h3>1. AI से सवाल (Gemini)</h3>
-    <label>Gemini key<input id=a1 type=password value="${esc(a.gk||'')}"></label>
-    <label>GitHub token<input id=a2 type=password value="${esc(a.gt||'')}"></label>
-    <label>GitHub repo (जैसे naam/kakshpal-app)<input id=a3 value="${esc(a.repo||'')}"></label>
-    <button class=b2 onclick="asave()">सेव करें</button>
-    <button class=b onclick="agen()">AI से आज के नए सवाल बनाओ</button>
+    <!-- ADMIN VIEW -->
+    <div id="adminView" style="display:none;">
+      <div class="card">
+        <h3>Bulk Paste से नए सवाल डालें</h3>
+        <label>डिफ़ॉल्ट विषय (Topic)</label>
+        <input id="defaultTopic" type="text" value="Reasoning" />
+        <label>सवाल पेस्ट करें (Topic:, Q:, A), B), C), D), Ans:, Exp: फॉर्मेट में)</label>
+        <textarea id="bulkInput" rows="7" placeholder="Topic: संख्या श्रृंखला&#10;Q: 2, 4, 8, 16, ?&#10;A) 20&#10;B) 24&#10;C) 32&#10;D) 64&#10;Ans: C&#10;Exp: हर संख्या पिछली की दोगुनी है।"></textarea>
+        <button class="btn-primary" onclick="handleBulkPaste()">पेस्ट किए सवाल सूची में डालें</button>
+      </div>
+      <div id="adminList"></div>
+    </div>
   </div>
-  <div class=card>
-    <h3>2. Manual फॉर्म (बिना AI — एक-एक सवाल)</h3>
-    <label>विषय (Subject)<select id=mSub>${Object.keys(SUBJ).map(k=>`<option>${esc(k)}</option>`).join('')}</select></label>
-    <label>टॉपिक (Topic)<input id=mTop placeholder="जैसे: इतिहास, प्रतिशत, झारखंड जिले"></label>
-    <label>सवाल<textarea id=mQ placeholder="यहाँ सवाल लिखें…"></textarea></label>
-    <label>विकल्प A<input id=mO0 placeholder="Option A"></label>
-    <label>विकल्प B<input id=mO1 placeholder="Option B"></label>
-    <label>विकल्प C<input id=mO2 placeholder="Option C"></label>
-    <label>विकल्प D<input id=mO3 placeholder="Option D"></label>
-    <label>सही उत्तर<select id=mAns><option value=0>A</option><option value=1>B</option><option value=2>C</option><option value=3>D</option></select></label>
-    <label>व्याख्या / Explanation (वैकल्पिक)<input id=mExp placeholder="संक्षिप्त उत्तर व्याख्या"></label>
-    <button class=b2 onclick="mAddQ()">सूची में सवाल जोड़ें</button>
-    <hr style="border:0;border-top:1px solid var(--ln);margin:14px 0">
-    <label>करंट अफेयर्स (Current Affairs — वैकल्पिक)<input id=mCa placeholder="आज का करंट अफेयर्स लिखें…"></label>
-    <button class=b onclick="mAddCa()">करंट अफेयर्स जोड़ें</button>
+
+  <!-- MANUAL EDIT MODAL -->
+  <div id="editModal" class="modal-backdrop">
+    <div class="modal">
+      <h3>सवाल Manual Edit करें</h3>
+      <input type="hidden" id="editId" />
+
+      <label>विषय (Topic)</label>
+      <input id="editTopic" type="text" />
+
+      <label>प्रश्न (Question)</label>
+      <textarea id="editQuestion" rows="2"></textarea>
+
+      <div class="grid-2">
+        <div>
+          <label>विकल्प A (Index 0)</label>
+          <input id="editOpt0" type="text" />
+        </div>
+        <div>
+          <label>विकल्प B (Index 1)</label>
+          <input id="editOpt1" type="text" />
+        </div>
+        <div>
+          <label>विकल्प C (Index 2)</label>
+          <input id="editOpt2" type="text" />
+        </div>
+        <div>
+          <label>विकल्प D (Index 3)</label>
+          <input id="editOpt3" type="text" />
+        </div>
+      </div>
+
+      <label>सही उत्तर चुनें (Correct Answer)</label>
+      <select id="editCorrectIndex">
+        <option value="0">A (पहला विकल्प)</option>
+        <option value="1">B (दूसरा विकल्प)</option>
+        <option value="2">C (तीसरा विकल्प)</option>
+        <option value="3">D (चौथा विकल्प)</option>
+      </select>
+
+      <label>व्याख्या (Explanation)</label>
+      <textarea id="editExp" rows="2"></textarea>
+
+      <div class="row-actions">
+        <button class="btn-save" onclick="saveManualEdit()">बदलाव सेव करें</button>
+        <button class="btn-cancel" onclick="closeEditModal()">रद्द करें</button>
+      </div>
+    </div>
   </div>
-  <div class=card>
-    <h3>3. Bulk Paste (एक साथ कई सवाल चिपकाएं)</h3>
-    <p class=m>फ़ॉर्मेट: हर सवाल ब्लॉक में <code>Q:</code>, <code>A)</code>, <code>B)</code>, <code>C)</code>, <code>D)</code>, <code>Ans: A</code> (और वैकल्पिक <code>Exp:</code> / <code>Topic:</code>) लिखें। एक जैसे सवाल अपने आप हट जाते हैं और नंबरिंग अपने आप लग जाती है।</p>
-    <label>डिफ़ॉल्ट विषय<select id=bSub>${Object.keys(SUBJ).map(k=>`<option>${esc(k)}</option>`).join('')}</select></label>
-    <label>यहाँ एक साथ सवाल पेस्ट करें<textarea id=bTxt style="min-height:130px" placeholder="Topic: झारखंड भूगोल
-Q: झारखंड की सबसे ऊँची चोटी कौन-सी है?
-A) पारसनाथ पहाड़ी
-B) नेतरहाट
-C) त्रिकूट पहाड़ी
-D) टैगोर हिल
-Ans: A
-Exp: पारसनाथ पहाड़ी (सम्मेद शिखर) की ऊँचाई लगभग 1365 मीटर है।"></textarea></label>
-    <button class=b2 onclick="mBulkParse()">पेस्ट किए सवाल सूची में डालें</button>
-  </div>
-  <div id=ao></div>`;
-  aview();
-}
 
-function asave(q){const a=A();if($('#a1')){a.gk=$('#a1').value.trim();a.gt=$('#a2').value.trim();a.repo=$('#a3').value.trim()}sv();if(!q)alert('सेव हो गया')}
+  <script>
+    const STORAGE_KEY = "app_questions_v1";
 
-function isDuplicateQ(qText, id){
-  const nk=normQ(qText);
-  return D.q.some(x=>x.id===id||(nk&&normQ(x.q)===nk))||NEW.q.some(x=>x.id===id||(nk&&normQ(x.q)===nk));
-}
+    // Ans ("A"/"B"/"C"/"D", "0"-"3", "1"-"4", ya option text) ko hamesha 0..3 index me badalta hai
+    function normalizeCorrectIndex(ansValue, options = []) {
+      if (typeof ansValue === "number" && ansValue >= 0 && ansValue <= 3) {
+        return ansValue;
+      }
+      const raw = String(ansValue || "").trim();
+      const upper = raw.toUpperCase();
 
-function pushNewQ(subj,topic,qText,opts,ansIdx,exp){
-  const cleanQ=String(qText||'').trim();
-  const cleanOpts=(opts||[]).map(x=>String(x||'').trim()).filter(Boolean);
-  if(!cleanQ||cleanOpts.length!==4)return 'invalid';
-  const idx=Number.isInteger(ansIdx)&&ansIdx>=0&&ansIdx<4?ansIdx:0;
-  const item={s:subj||'GK',t:(topic||'सामान्य').trim()||'सामान्य',q:cleanQ,o:cleanOpts,a:idx,e:(exp||'').trim()};
-  item.id=hid(item.q);
-  if(isDuplicateQ(item.q,item.id))return 'duplicate';
-  NEW.q.push(item);
-  return 'added';
-}
+      const letterMap = { A: 0, B: 1, C: 2, D: 3 };
+      if (upper in letterMap) return letterMap[upper];
 
-function mAddQ(){
-  const res=pushNewQ(
-    $('#mSub').value,
-    $('#mTop').value,
-    $('#mQ').value,
-    [$('#mO0').value,$('#mO1').value,$('#mO2').value,$('#mO3').value],
-    parseInt($('#mAns').value,10),
-    $('#mExp').value
-  );
-  if(res==='invalid'){alert('कृपया सवाल और चारों विकल्प (A, B, C, D) सही से भरें।');return}
-  if(res==='duplicate'){alert('यह सवाल पहले से मौजूद है, इसलिए इसे नहीं जोड़ा गया।');return}
-  $('#mQ').value='';$('#mO0').value='';$('#mO1').value='';$('#mO2').value='';$('#mO3').value='';$('#mExp').value='';
-  aview();
-  alert('सवाल #'+(D.q.length+NEW.q.length)+' सूची में जुड़ गया! नीचे जाकर Publish करें दबाएं।');
-}
+      // Agar "A)" ya "Ans: B" jaisa kuch aaye
+      const firstChar = upper.charAt(0);
+      if (firstChar in letterMap && (raw.length === 1 || raw[1] === ")" || raw[1] === ".")) {
+        return letterMap[firstChar];
+      }
 
-function mAddCa(){
-  const t=($('#mCa').value||'').trim();
-  if(!t){alert('कृपया करंट अफेयर्स लिखें।');return}
-  NEW.ca.unshift({d:td(),t});
-  $('#mCa').value='';
-  aview();
-  alert('करंट अफेयर्स सूची में जुड़ गया!');
-}
+      // Agar 1..4 diya ho to 0..3 me badlen
+      if (["1", "2", "3", "4"].includes(raw)) {
+        return Number(raw) - 1;
+      }
+      if (["0", "1", "2", "3"].includes(raw)) {
+        return Number(raw);
+      }
 
-function mBulkParse(){
-  const raw=($('#bTxt').value||'').trim();
-  if(!raw){alert('पहले टेक्स्ट बॉक्स में सवाल पेस्ट करें।');return}
-  const defSub=$('#bSub').value||'GK';
-  const blocks=raw.split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean);
-  let added=0,dup=0,bad=0;
-  for(const blk of blocks){
-    const lines=blk.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-    let topic='सामान्य',qText='',exp='',ans=0;
-    const opts=[];
-    for(const ln of lines){
-      if(/^topic\s*[:\-]/i.test(ln)){topic=ln.replace(/^topic\s*[:\-]\s*/i,'').trim()||'सामान्य'}
-      else if(/^(?:q|सवाल|प्रश्न)\s*[0-9.\):\-]?\s*/i.test(ln)&&!qText){qText=ln.replace(/^(?:q|सवाल|प्रश्न)\s*[0-9.\):\-]?\s*/i,'').trim()}
-      else if(/^(?:[a-dA-D]|[क-घ])\s*[\).:\-]\s*/.test(ln)&&opts.length<4){opts.push(ln.replace(/^(?:[a-dA-D]|[क-घ])\s*[\).:\-]\s*/,'').trim())}
-      else if(/^(?:ans|answer|उत्तर|सही)\s*[:\-]?\s*/i.test(ln)){
-        const m=ln.match(/([a-dA-D1-4])/);
-        if(m){
-          const ch=m[1].toUpperCase();
-          if('ABCD'.includes(ch))ans='ABCD'.indexOf(ch);
-          else if('1234'.includes(ch))ans=parseInt(ch,10)-1;
+      // Agar answer me option ka text diya ho to match karen
+      const matchedIdx = options.findIndex(opt => String(opt).trim() === raw);
+      return matchedIdx >= 0 ? matchedIdx : 0;
+    }
+
+    let questions = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null") || [
+      {
+        id: "q1",
+        topic: "कला एवं संस्कृति",
+        question: "'सरहुल' किस प्रकार का प्रमुख पर्व है?",
+        options: ["फसल कटाई", "प्रकृति पूजा", "पशु मेला", "विवाह पर्व"],
+        correctIndex: 1,
+        explanation: "सरहुल झारखंड का प्रमुख प्रकृति-पूजा पर्व है।"
+      },
+      {
+        id: "q2",
+        topic: "कला एवं संस्कृति",
+        question: "छऊ नृत्य की प्रसिद्ध सरायकेला शैली किस जिले से जुड़ी है?",
+        options: ["रांची", "सरायकेला-खरसावां", "देवघर", "गोड्डा"],
+        correctIndex: 1,
+        explanation: "छऊ नृत्य की सरायकेला शैली सरायकेला-खरसावां क्षेत्र से जुड़ी है।"
+      }
+    ];
+
+    // Purane data ko normalize karke save karna
+    questions = questions.map((q, i) => ({
+      id: q.id || `q_${Date.now()}_${i}`,
+      topic: q.topic || "सामान्य",
+      question: q.question || "",
+      options: Array.isArray(q.options) && q.options.length === 4 ? q.options : ["", "", "", ""],
+      correctIndex: normalizeCorrectIndex(
+        q.correctIndex !== undefined ? q.correctIndex : q.ans,
+        q.options || []
+      ),
+      explanation: q.explanation || q.exp || ""
+    }));
+    persist();
+
+    function persist() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
+    }
+
+    function switchTab(tab) {
+      document.getElementById("tabKitab").classList.toggle("active", tab === "kitab");
+      document.getElementById("tabAdmin").classList.toggle("active", tab === "admin");
+      document.getElementById("kitabView").style.display = tab === "kitab" ? "block" : "none";
+      document.getElementById("adminView").style.display = tab === "admin" ? "block" : "none";
+      renderAll();
+    }
+
+    function renderKitab() {
+      const container = document.getElementById("kitabView");
+      if (!questions.length) {
+        container.innerHTML = `<div class="card">कोई सवाल उपलब्ध नहीं है।</div>`;
+        return;
+      }
+
+      container.innerHTML = questions.map((q, idx) => {
+        const rightIdx = normalizeCorrectIndex(q.correctIndex, q.options);
+        const optionsHtml = q.options.map((opt, oIdx) => {
+          const isCorrect = oIdx === rightIdx;
+          return `<div class="opt ${isCorrect ? "correct" : ""}">${isCorrect ? "✓ " : ""}${escapeHtml(opt)}</div>`;
+        }).join("");
+
+        return `
+          <div class="card">
+            <div class="meta">प्रश्न #${idx + 1} • ${escapeHtml(q.topic)}</div>
+            <div class="q-title">${idx + 1}. ${escapeHtml(q.question)}</div>
+            ${optionsHtml}
+            ${q.explanation ? `<div class="exp">${escapeHtml(q.explanation)}</div>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderAdmin() {
+      const container = document.getElementById("adminList");
+      container.innerHTML = questions.map((q, idx) => {
+        const rightIdx = normalizeCorrectIndex(q.correctIndex, q.options);
+        const letter = ["A", "B", "C", "D"][rightIdx];
+        return `
+          <div class="card">
+            <div class="meta">#${idx + 1} • ${escapeHtml(q.topic)} • सही उत्तर: <b>${letter}</b> (${escapeHtml(q.options[rightIdx] || "")})</div>
+            <div class="q-title">${escapeHtml(q.question)}</div>
+            <div class="meta">A) ${escapeHtml(q.options[0])} | B) ${escapeHtml(q.options[1])} | C) ${escapeHtml(q.options[2])} | D) ${escapeHtml(q.options[3])}</div>
+            <div class="row-actions">
+              <button class="btn-edit" onclick="openEditModal('${q.id}')">Edit / बदलाव करें</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openEditModal(id) {
+      const q = questions.find(item => item.id === id);
+      if (!q) return;
+      document.getElementById("editId").value = q.id;
+      document.getElementById("editTopic").value = q.topic;
+      document.getElementById("editQuestion").value = q.question;
+      document.getElementById("editOpt0").value = q.options[0] || "";
+      document.getElementById("editOpt1").value = q.options[1] || "";
+      document.getElementById("editOpt2").value = q.options[2] || "";
+      document.getElementById("editOpt3").value = q.options[3] || "";
+      document.getElementById("editCorrectIndex").value = String(normalizeCorrectIndex(q.correctIndex, q.options));
+      document.getElementById("editExp").value = q.explanation || "";
+      document.getElementById("editModal").classList.add("open");
+    }
+
+    function closeEditModal() {
+      document.getElementById("editModal").classList.remove("open");
+    }
+
+    function saveManualEdit() {
+      const id = document.getElementById("editId").value;
+      const idx = questions.findIndex(item => item.id === id);
+      if (idx === -1) return;
+
+      const updatedOptions = [
+        document.getElementById("editOpt0").value.trim(),
+        document.getElementById("editOpt1").value.trim(),
+        document.getElementById("editOpt2").value.trim(),
+        document.getElementById("editOpt3").value.trim()
+      ];
+
+      questions[idx] = {
+        ...questions[idx],
+        topic: document.getElementById("editTopic").value.trim() || "सामान्य",
+        question: document.getElementById("editQuestion").value.trim(),
+        options: updatedOptions,
+        correctIndex: Number(document.getElementById("editCorrectIndex").value),
+        explanation: document.getElementById("editExp").value.trim()
+      };
+
+      persist();
+      closeEditModal();
+      renderAll();
+    }
+
+    function handleBulkPaste() {
+      const rawText = document.getElementById("bulkInput").value.trim();
+      const defaultTopic = document.getElementById("defaultTopic").value.trim() || "Reasoning";
+      if (!rawText) return;
+
+      const blocks = rawText.split(/\n\s*\n/);
+      let addedCount = 0;
+
+      for (const block of blocks) {
+        const lines = block.split("\n").map(l => l.trim()).filter(Boolean);
+        let topic = defaultTopic;
+        let question = "";
+        const opts = ["", "", "", ""];
+        let ansRaw = "A";
+        let exp = "";
+
+        for (const line of lines) {
+          if (/^Topic\s*:/i.test(line)) topic = line.replace(/^Topic\s*:/i, "").trim();
+          else if (/^Q\s*:/i.test(line)) question = line.replace(/^Q\s*:/i, "").trim();
+          else if (/^A[\)\.]\s*/i.test(line)) opts[0] = line.replace(/^A[\)\.]\s*/i, "").trim();
+          else if (/^B[\)\.]\s*/i.test(line)) opts[1] = line.replace(/^B[\)\.]\s*/i, "").trim();
+          else if (/^C[\)\.]\s*/i.test(line)) opts[2] = line.replace(/^C[\)\.]\s*/i, "").trim();
+          else if (/^D[\)\.]\s*/i.test(line)) opts[3] = line.replace(/^D[\)\.]\s*/i, "").trim();
+          else if (/^Ans\s*:/i.test(line)) ansRaw = line.replace(/^Ans\s*:/i, "").trim();
+          else if (/^Exp\s*:/i.test(line)) exp = line.replace(/^Exp\s*:/i, "").trim();
+        }
+
+        if (question && opts.every(Boolean)) {
+          questions.push({
+            id: `q_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+            topic,
+            question,
+            options: opts,
+            correctIndex: normalizeCorrectIndex(ansRaw, opts),
+            explanation: exp
+          });
+          addedCount++;
         }
       }
-      else if(/^(?:exp|explanation|व्याख्या)\s*[:\-]\s*/i.test(ln)){exp=ln.replace(/^(?:exp|explanation|व्याख्या)\s*[:\-]\s*/i,'').trim()}
-      else if(!qText){qText=ln}
+
+      if (addedCount > 0) {
+        persist();
+        document.getElementById("bulkInput").value = "";
+        renderAll();
+        alert(`${addedCount} सवाल सफलतापूर्वक जुड़ गए।`);
+      } else {
+        alert("कृपया सही फॉर्मेट (Q:, A), B), C), D), Ans:) में सवाल पेस्ट करें।");
+      }
     }
-    const res=pushNewQ(defSub,topic,qText,opts,ans,exp);
-    if(res==='added')added++;
-    else if(res==='duplicate')dup++;
-    else bad++;
-  }
-  if(!added&&!dup){alert('कोई मान्य सवाल parse नहीं हो सका। कृपया Q, A-D विकल्प और Ans फ़ॉर्मेट जाँचें।');return}
-  $('#bTxt').value='';
-  aview();
-  alert(`${added} नए सवाल जुड़े${dup?` (${dup} एक जैसे सवाल अपने आप हट गए)`:''}${bad?` (${bad} अधूरे ब्लॉक छोड़े गए)`:''}। नीचे जाकर Publish करें दबाएं।`);
-}
 
-async function gem(prompt,search,onRetry){const body={contents:[{parts:[{text:prompt}]}]};if(search)body.tools=[{google_search:{}}];else body.generationConfig={responseMimeType:'application/json'};
-  const maxTries=4;
-  for(let attempt=1;attempt<=maxTries;attempt++){
-    const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':A().gk},body:JSON.stringify(body)});
-    const j=await r.json();
-    if(!j.error){const t=j.candidates[0].content.parts[0].text,m=t.match(/\[[\s\S]*\]/);return JSON.parse(m?m[0]:t)}
-    const msg=j.error.message||'';
-    const isBusy=r.status===429||r.status===503||/high demand|overloaded|quota|rate|unavailable/i.test(msg);
-    if(!isBusy||attempt===maxTries)throw new Error(msg);
-    const delay=attempt*5000;
-    if(onRetry)onRetry(attempt,maxTries,Math.round(delay/1000));
-    await wait(delay);
-  }
-}
-async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');let skipped=[];
-  for(const [s,d] of Object.entries(SUBJ)){o.textContent='बना रहा हूँ: '+s+'…';
-    const old=D.q.filter(x=>x.s==s).slice(-60).map(x=>'- '+x.q).join('\n');
-    try{const r=await gem(`Create 5 NEW multiple-choice questions for the Jharkhand Police Constable exam.\nSubject: ${d}. Write in Hindi. Only include facts you are sure about.\nDo NOT repeat or rephrase these existing questions; cover different topics:\n${old}\nReturn a JSON array. Each item: {"t": topic, "q": question, "o": [4 options], "a": index of correct option 0-3, "e": one-line explanation}.`,false,(att,mx,sec)=>o.textContent=`${s} पर सर्वर व्यस्त है — दोबारा कोशिश ${att}/${mx} (${sec}s बाद)…`);
-      r.forEach(q=>{if(!(q&&Array.isArray(q.o)&&q.o.length==4&&Number.isInteger(q.a)&&q.a>=0&&q.a<4&&q.q&&q.t))return;pushNewQ(s,q.t,q.q,q.o,q.a,q.e)})}
-    catch(e){skipped.push(s);o.textContent='त्रुटि ('+s+'): '+e.message;await wait(4000)}
-    await wait(4000)}
-  try{o.textContent='करंट अफेयर्स बना रहा हूँ…';
-    const c=await gem('Give 5 important current affairs from the last 2 days for India (1-2 about Jharkhand if any) for a police constable exam. Hindi, one line each. Return only a JSON array: [{"t":"..."}]',true,(att,mx,sec)=>o.textContent=`करंट अफेयर्स पर सर्वर व्यस्त — कोशिश ${att}/${mx} (${sec}s बाद)…`);NEW.ca=c.filter(i=>i&&i.t).map(i=>({d:td(),t:i.t})).concat(NEW.ca)}catch(e){}
-  if(!NEW.q.length&&!NEW.ca.length)o.textContent='कोई नया सवाल नहीं बना। सर्वर व्यस्त है या key/इंटरनेट जाँचें।';
-  else{aview();if(skipped.length&&$('#ao'))$('#ao').insertAdjacentHTML('beforeend',`<p class=m>इन विषयों पर सर्वर व्यस्त रहा (बाद में फिर कोशिश करें): ${esc(skipped.join(', '))}</p>`)}}
+    function escapeHtml(str = "") {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
 
-function aview(){const o=$('#ao');if(!o)return;
-  if(!NEW.q.length&&!NEW.ca.length){o.innerHTML='';return}
-  const baseNum=D.q.length;
-  o.innerHTML=`<h3>${NEW.q.length} नए सवाल (${NEW.ca.length} करंट अफेयर्स) — गलत लगे तो निशान हटा दें</h3>`+
-  (NEW.ca.length?`<div class=card><b>करंट अफेयर्स (${NEW.ca.length})</b>`+NEW.ca.map(c=>`<p class=m>• ${esc(c.t)}</p>`).join('')+`</div>`:'')+
-  NEW.q.map((q,i)=>`<div class=card><label><input type=checkbox id=nq${i} checked style="width:auto"> <b>#${baseNum+i+1}</b> · ${esc(q.s)} › ${esc(q.t)}</label><div class=q>${baseNum+i+1}. ${esc(q.q)}</div>${q.o.map((x,j)=>`<p class=m>${j==q.a?'✔ ':''}${esc(x)}</p>`).join('')}<p class=m>${esc(q.e||'')}</p></div>`).join('')+
-  `<button class=b onclick="apub()">Publish करें</button>`}
+    function renderAll() {
+      renderKitab();
+      renderAdmin();
+    }
 
-async function apub(){asave(1);const a=A();if(!a.gt||!a.repo){alert('GitHub token और repo डालें');return}const o=$('#ao');
-  const keep=NEW.q.filter((_,i)=>$('#nq'+i)&&$('#nq'+i).checked);o.textContent='Publish हो रहा है…';
-  const u='https://api.github.com/repos/'+a.repo+'/contents/questions.json',h={Authorization:'Bearer '+a.gt,Accept:'application/vnd.github+json'};
-  try{const g=await fetch(u,{headers:h}),gj=await g.json();if(!g.ok)throw new Error(gj.message);
-    const db=JSON.parse(b64d(gj.content));
-    const merged=dedupeList((db.questions||[]).concat(keep)).slice(-200000);
-    const addedCount=Math.max(0,merged.length-(db.questions||[]).length);
-    db.questions=merged;
-    D.q=merged.slice();
-    if(NEW.ca.length){db.current_affairs=NEW.ca.concat(db.current_affairs||[]).slice(0,60);D.ca=db.current_affairs.slice()}
-    const p=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'daily questions',content:b64e(JSON.stringify(db)),sha:gj.sha})}),pj=await p.json();if(!p.ok)throw new Error(pj.message);
-    NEW={q:[],ca:[]};o.textContent=`हो गया! ${addedCount} नए सवाल जुड़े (एक जैसे सवाल अपने आप हट गए)। 1-2 मिनट में सब students को दिखेंगे।`}
-  catch(e){o.textContent='त्रुटि: '+e.message}}
-function phys(){const b=(k,f)=>{const v=S.phys.map(x=>parseFloat(x[k])).filter(x=>x>0);return v.length?f(...v):'-'};
-  $('#v').innerHTML=`<h2>शारीरिक टेस्ट</h2><p class=m>अपना रिकॉर्ड डालें। मानक (standard) अपने नोटिफिकेशन से देखें।</p>
-  <label>दौड़ (मिनट)<input id=p1 type=number step=.01></label><label>लंबी कूद (फीट)<input id=p2 type=number step=.1></label><label>गोला फेंक (फीट)<input id=p3 type=number step=.1></label>
-  <button class=b onclick="ps()">सेव करें</button><p>सबसे तेज़ दौड़: ${b('r',Math.min)} · सबसे लंबी कूद: ${b('j',Math.max)} · सबसे दूर गोला: ${b('s',Math.max)}</p>`+
-  S.phys.slice(0,10).map(x=>`<div class=card>${esc(x.d)} · दौड़ ${esc(x.r||'-')} · कूद ${esc(x.j||'-')} · गोला ${esc(x.s||'-')}</div>`).join('')}
-function ps(){S.phys.unshift({d:td(),r:$('#p1').value,j:$('#p2').value,s:$('#p3').value});sv();phys()}
-function dk(){const h=document.documentElement;S.dk=h.dataset.t=='dark'?'light':'dark';h.dataset.t=S.dk;sv()}
-function me(){$('#v').innerHTML=`<h2>मेरा</h2><button class=b2 onclick="dk()">डार्क / लाइट मोड</button>
-  <h3>टॉपिक के हिसाब से सही उत्तर</h3><table>${Object.entries(S.st).map(([k,v])=>`<tr><td>${esc(k.replace('|',' › '))}</td><td>${v.c}/${v.c+v.w}</td></tr>`).join('')||'<tr><td class=m>अभी डेटा नहीं।</td></tr>'}</table>
-  <h3>पिछले टेस्ट</h3>`+(S.hist.map(h=>`<div class=card>${esc(h.d)} · ${esc(h.t)} · ${h.sc.toFixed(2)}/${h.mx}</div>`).join('')||'<p class=m>अभी कोई टेस्ट नहीं।</p>')}
-
-const V={home,test,learn,phys,me,adm},N=[['home','होम','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>'],['test','टेस्ट','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>'],['learn','किताब','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12a3 3 0 013 3v13H7a3 3 0 01-3-3zM4 17a3 3 0 013-3h12"/></svg>'],['phys','शारीरिक','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M12 14v-4M9 3h6"/></svg>'],['me','मेरा','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>']];
-function go(v){clearInterval(tick);window.scrollTo(0,0);$('#n').innerHTML=N.map(([k,l,i])=>`<button class="${k==v?'on':''}" onclick="go('${k}')">${i}<span>${l}</span></button>`).join('');V[v]()}
-document.documentElement.dataset.t=S.dk||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
-fetch('questions.json').then(r=>r.json()).then(j=>{D.q=dedupeList(j.questions||[]);D.ca=j.current_affairs||[];go(location.hash=='#admin'?'adm':'home')}).catch(()=>{$('#v').textContent='सवाल लोड नहीं हुए। इंटरनेट जाँचें।'});
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
-</script></body></html>
+    renderAll();
+  </script>
+</body>
+</html>
