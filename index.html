@@ -142,7 +142,7 @@ function adm(){const a=A();$('#v').innerHTML=`<h2>Admin</h2><p class=m>सिर
   <button class=b2 onclick="asave()">सेव करें</button><button class=b onclick="agen()">आज के नए सवाल बनाओ</button><div id=ao></div>`;aview()}
 function asave(q){const a=A();if($('#a1')){a.gk=$('#a1').value.trim();a.gt=$('#a2').value.trim();a.repo=$('#a3').value.trim()}sv();if(!q)alert('सेव हो गया')}
 async function gem(prompt,search){const body={contents:[{parts:[{text:prompt}]}]};if(search)body.tools=[{google_search:{}}];else body.generationConfig={responseMimeType:'application/json'};
-  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':A().gk},body:JSON.stringify(body)});
+  const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':A().gk},body:JSON.stringify(body)});
   const j=await r.json();if(j.error)throw new Error(j.error.message);const t=j.candidates[0].content.parts[0].text,m=t.match(/\[[\s\S]*\]/);return JSON.parse(m?m[0]:t)}
 async function agen(){asave(1);if(!A().gk){alert('पहले Gemini key डालें');return}const o=$('#ao');NEW={q:[],ca:[]};const have=new Set(D.q.map(x=>x.id));
   for(const [s,d] of Object.entries(SUBJ)){o.textContent='बना रहा हूँ: '+s+'…';
